@@ -1,10 +1,7 @@
-
-function page() {
+export default function DashboardIndexPage() {
   return (
-    <div>
-      
-    </div>
+    <h1>
+      Dashboard 
+    </h1>
   )
 }
-
-export default page

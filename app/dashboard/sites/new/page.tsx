@@ -20,7 +20,7 @@ import { siteSchema } from "@/app/utils/zodSchemas";
 
 export default function NewSiteRoute() {
   const [lastResult, action] = useActionState(CreateSiteAction, undefined);
-  const [from, fields] = useForm({
+  const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, {
@@ -40,20 +40,42 @@ export default function NewSiteRoute() {
             Create your site here. Click the button below once you are done...
           </CardDescription>
         </CardHeader>
-        <form>
+        <form id={form.id} onSubmit={form.onSubmit} action={action}>
           <CardContent>
             <div className="flex flex-col gap-y-6">
               <div className="grid gap-2">
                 <Label>Site Name</Label>
-                <Input placeholder="Site Name" />
+                <Input
+                  name={fields.name.name}
+                  key={fields.name.key}
+                  defaultValue={fields.name.initialValue}
+                  placeholder="Site Name"
+                />
+                <p className="text-red-500 text-sm">{fields.name.errors}</p>
               </div>
               <div>
                 <Label>Subdirectory</Label>
-                <Input placeholder="Sub directory" />
+                <Input
+                  name={fields.subdirectory.name}
+                  key={fields.subdirectory.key}
+                  defaultValue={fields.subdirectory.initialValue}
+                  placeholder="Sub directory"
+                />
+                <p className="text-red-500 text-sm">
+                  {fields.subdirectory.errors}
+                </p>
               </div>
               <div className="grid gap-2">
                 <Label>Description</Label>
-                <Textarea placeholder="Small descroption for your site" />
+                <Textarea
+                  name={fields.description.name}
+                  key={fields.description.key}
+                  defaultValue={fields.description.initialValue}
+                  placeholder="Small descroption for your site"
+                />
+                <p className="text-red-500 text-sm">
+                  {fields.description.errors}
+                </p>
               </div>
             </div>
           </CardContent>

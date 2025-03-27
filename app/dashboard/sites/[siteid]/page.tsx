@@ -54,7 +54,7 @@ export default async function SiteIdRoute({
           </Link>
         </Button>
         <Button asChild>
-          <Link href="#">
+          <Link href={`/dashboard/sites/${params.siteId}/create`}>
             <PlusCircle className="size-4 mr-2" />
             Create Article
           </Link>

@@ -31,14 +31,7 @@ export default function ArticleCreationRoute({
           <CardTitle>Article Details</CardTitle>
           <CardDescription>This is the details of the article.</CardDescription>
         </CardHeader>
-        <CardContent>
-          <form className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label>Title</Label>
-              <Input placeholder="Nextjs blogging application"></Input>
-            </div>
-          </form>
-        </CardContent>
+      
       </Card>
     </>
   );

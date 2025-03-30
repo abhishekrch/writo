@@ -11,15 +11,19 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Atom } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function ArticleCreationRoute({
   params,
 }: {
   params: { siteId: string };
 }) {
+  const [imageUrl, setImageUrl] = useState<undefined | string>(undefined);
   return (
     <>
       <div className="flex items-center">
@@ -60,17 +64,28 @@ export default function ArticleCreationRoute({
 
             <div className="grid gap-2">
               <Label> Cover Image </Label>
-              <UploadDropzone
-                endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
-                  console.log("Files: ", res);
-                  alert("Upload completed successfully!");
-                }}
-                onUploadError={(error) => {
-                  console.error("Error: ", error);
-                  alert(`Error: ${error.message}`);
-                }}
-              />
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt="Uploaded Image"
+                  className="object-cover w-[200px] h-[200px] rounded-lg"
+                  width={200}
+                  height={200}
+                />
+              ) : (
+                <UploadDropzone
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    setImageUrl(res[0].ufsUrl);
+                    console.log("Files: ", res);
+                    toast.success("Upload completed successfully!");
+                  }}
+                  onUploadError={(error) => {
+                    console.error("Error: ", error);
+                    toast.error(`Error: ${error.message}`);
+                  }}
+                />
+              )}
             </div>
           </form>
         </CardContent>

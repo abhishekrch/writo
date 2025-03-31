@@ -17,6 +17,8 @@ import { ArrowLeft, Atom } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import TailwindEditor from "@/app/components/dashboard/EditorWrapper";
+import { JSONContent } from "novel";
 
 export default function ArticleCreationRoute({
   params,
@@ -24,6 +26,7 @@ export default function ArticleCreationRoute({
   params: { siteId: string };
 }) {
   const [imageUrl, setImageUrl] = useState<undefined | string>(undefined);
+  const [value, setValue] = useState<JSONContent | undefined>(undefined);
   return (
     <>
       <div className="flex items-center">
@@ -86,6 +89,10 @@ export default function ArticleCreationRoute({
                   }}
                 />
               )}
+            </div>
+            <div className="grid gap-2">
+              <Label>Article Content</Label>
+              <TailwindEditor onChange={setValue} initialValue={value} />
             </div>
           </form>
         </CardContent>

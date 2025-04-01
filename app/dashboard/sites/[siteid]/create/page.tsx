@@ -94,6 +94,7 @@ export default function ArticleCreationRoute({
               <Label>Article Content</Label>
               <TailwindEditor onChange={setValue} initialValue={value} />
             </div>
+            <Button className="w-fit">Submit</Button>
           </form>
         </CardContent>
       </Card>

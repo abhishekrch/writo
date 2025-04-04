@@ -24,6 +24,7 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { PostSchema } from "@/app/utils/zodSchemas";
 import slugify from "react-slugify";
+import { SubmitButton } from "@/app/components/dashboard/SubmitButtons";
 
 export default function ArticleCreationRoute({
   params,
@@ -78,6 +79,7 @@ export default function ArticleCreationRoute({
             onSubmit={form.onSubmit}
             action={action}
           >
+            <input type="hidden" name="siteId" value={params.siteId}/>
             <div className="grid gap-2">
               <Label>Title</Label>
               <Input
@@ -175,7 +177,7 @@ export default function ArticleCreationRoute({
                 {fields.articleContent.errors}
               </p>
             </div>
-            <Button className="w-fit">Submit</Button>
+            <SubmitButton text="Create Article" />
           </form>
         </CardContent>
       </Card>

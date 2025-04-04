@@ -51,5 +51,5 @@ export async function CreatePostAction(prevState: any, formData: FormData) {
     },
   });
 
-  return redirect("/dashboard/sites");
+  return redirect(`/dashboard/sites/${formData.get('')}`);
 }

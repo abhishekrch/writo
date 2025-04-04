@@ -23,6 +23,7 @@ import { CreatePostAction } from "@/app/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { PostSchema } from "@/app/utils/zodSchemas";
+import slugify from "react-slugify";
 
 export default function ArticleCreationRoute({
   params,
@@ -31,6 +32,8 @@ export default function ArticleCreationRoute({
 }) {
   const [imageUrl, setImageUrl] = useState<undefined | string>(undefined);
   const [value, setValue] = useState<JSONContent | undefined>(undefined);
+  const [slug, setSlugValue] = useState<undefined | string>(undefined);
+  const [title, setTitle] = useState<undefined | string>(undefined);
   const [lastResult, action] = useActionState(CreatePostAction, undefined);
   const [form, fields] = useForm({
     lastResult,
@@ -40,6 +43,18 @@ export default function ArticleCreationRoute({
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
+  function handleSlugGeneration() {
+    const titleInput = title;
+
+    if (titleInput?.length == 0 || titleInput === undefined) {
+      return toast.error("Please create a title for your article");
+    }
+
+    setSlugValue(slugify(titleInput));
+
+    return toast.success("Slug generated successfully!");
+  }
 
   return (
     <>
@@ -70,6 +85,8 @@ export default function ArticleCreationRoute({
                 name={fields.title.name}
                 defaultValue={fields.title.initialValue}
                 placeholder="Nextjs blogging application"
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
               ></Input>
               <p className="text-red-500 text-sm">{fields.title.errors}</p>
             </div>
@@ -81,8 +98,15 @@ export default function ArticleCreationRoute({
                 name={fields.slug.name}
                 defaultValue={fields.slug.initialValue}
                 placeholder="Article Slug"
+                onChange={(e) => setSlugValue(e.target.value)}
+                value={slug}
               ></Input>
-              <Button className="w-fit" variant="secondary" type="button">
+              <Button
+                onClick={handleSlugGeneration}
+                className="w-fit cursor-pointer"
+                variant="secondary"
+                type="button"
+              >
                 <Atom className="size-4 mr-2" /> Generate Slug
               </Button>
               <p className="text-red-500 text-sm">{fields.slug.errors}</p>
@@ -104,11 +128,12 @@ export default function ArticleCreationRoute({
 
             <div className="grid gap-2">
               <Label> Cover Image </Label>
-              <input type="hidden"
-              name={fields.coverImage.name}
-              key={fields.coverImage.key}
-              defaultValue={fields.coverImage.initialValue}
-              value={imageUrl}
+              <input
+                type="hidden"
+                name={fields.coverImage.name}
+                key={fields.coverImage.key}
+                defaultValue={fields.coverImage.initialValue}
+                value={imageUrl}
               />
               {imageUrl ? (
                 <Image
@@ -132,7 +157,7 @@ export default function ArticleCreationRoute({
                   }}
                 />
               )}
-              
+
               <p className="text-red-500 text-sm">{fields.coverImage.errors}</p>
             </div>
 
@@ -146,7 +171,9 @@ export default function ArticleCreationRoute({
                 value={JSON.stringify(value)}
               />
               <TailwindEditor onChange={setValue} initialValue={value} />
-              <p className="text-red-500 text-sm">{fields.articleContent.errors}</p>
+              <p className="text-red-500 text-sm">
+                {fields.articleContent.errors}
+              </p>
             </div>
             <Button className="w-fit">Submit</Button>
           </form>

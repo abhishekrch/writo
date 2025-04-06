@@ -17,11 +17,24 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Book, FileIcon, MoreHorizontal, PlusCircle, Settings } from "lucide-react";
+import {
+  Book,
+  FileIcon,
+  MoreHorizontal,
+  PlusCircle,
+  Settings,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 async function getData(userId: string, siteId: string) {
   const data = await prisma.post.findMany({
@@ -152,9 +165,21 @@ export default async function SiteIdRoute({
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button size="icon" variant="ghost">
-                              <MoreHorizontal  className="size-4"/>
+                              <MoreHorizontal className="size-4" />
                             </Button>
                           </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={`/dashboard/sites/${params.siteId}/${item.id}`}
+                              >
+                                Edit
+                              </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>

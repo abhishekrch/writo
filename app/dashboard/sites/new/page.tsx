@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -17,6 +16,7 @@ import { CreateSiteAction } from "@/app/actions";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { siteSchema } from "@/app/utils/zodSchemas";
+import { SubmitButton } from "@/app/components/dashboard/SubmitButtons";
 
 export default function NewSiteRoute() {
   const [lastResult, action] = useActionState(CreateSiteAction, undefined);
@@ -80,7 +80,7 @@ export default function NewSiteRoute() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Submit</Button>
+            <SubmitButton text="Create Site" />
           </CardFooter>
         </form>
       </Card>

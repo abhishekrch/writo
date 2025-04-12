@@ -35,6 +35,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EmptyState } from "@/app/components/dashboard/EmptyState";
 
 async function getData(userId: string, siteId: string) {
   const data = await prisma.post.findMany({
@@ -92,27 +93,12 @@ export default async function SiteIdRoute({
         </Button>
       </div>
       {data === undefined || data.length === 0 ? (
-        <div
-          className="flex flex-col items-center justify-center rounded-md border 
-      border-dashed p-8 text-center animate-in fade-in-50"
-        >
-          <div className="flex size-20 items-center justify-center rounded-full bg-primary/10">
-            <FileIcon className="size-10 text-primary" />
-          </div>
-          <h2 className="mt-6 text-xl font-semibold">
-            You don't have any sites yet.
-          </h2>
-          <p className="mb-8 mt-2 text-center text-sm leading-tight text-muted-foreground max-w-sm mx-auto">
-            You currently don't have any sites. Please create some so that you
-            can see them here
-          </p>
-          <Button asChild>
-            <Link href={"/dashboard/sites/new"}>
-              <PlusCircle className="mr-2 size-4" />
-              Create Site
-            </Link>
-          </Button>
-        </div>
+        <EmptyState
+          title="You don't have any articles yet."
+          description="You currently don't have any articles. Please create some so that you can see them here"
+          buttonText="Create Article"
+          href={`/dashboard/sites/${params.siteId}/create`}
+        />
       ) : (
         <div>
           <Card>
@@ -179,8 +165,12 @@ export default async function SiteIdRoute({
                               </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link href={`/dashboard/sites/${params.siteId}/${item.id}/delete`}>Delete</Link>
-                              </DropdownMenuItem>
+                              <Link
+                                href={`/dashboard/sites/${params.siteId}/${item.id}/delete`}
+                              >
+                                Delete
+                              </Link>
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>

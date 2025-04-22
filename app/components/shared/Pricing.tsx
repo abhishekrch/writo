@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { SubmitButton } from "../dashboard/SubmitButtons";
 
 interface iAppProps {
   id: number;
@@ -47,7 +48,7 @@ export const PricingPlans: iAppProps[] = [
 export function PricingTable() {
   return (
     <>
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-3xl mx-auto text-center">
         <p className="font-semibold text-primary">Pricing</p>
         <h1 className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
           Pricing Plans for everyone and every budget!
@@ -59,7 +60,7 @@ export function PricingTable() {
         fees—just focus on writing.
       </p>
 
-      <div className="grid grid-cols-1 gap-8 mt-5 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 mt-16 lg:grid-cols-2">
         {PricingPlans.map((item) => (
           <Card key={item.id} className={item.id === 1 ? "border-primary" : ""}>
             <CardHeader>
@@ -92,7 +93,13 @@ export function PricingTable() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button>Choose Plan</Button>
+            {item.id === 1 ? (
+              <form className="w-full">
+                  <SubmitButton text="Buy Plan" className="mt-5 w-full" />
+                </form>
+            ): (
+              <Button variant="outline" className="mt-5 w-full">Try for free </Button>
+            )}
             </CardFooter>
           </Card>
         ))}

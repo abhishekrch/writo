@@ -171,12 +171,19 @@ export async function CreateSubscription() {
     mode: 'subscription',
     billing_address_collection: 'auto',
     payment_method_types: ["card"],
+    line_items: [
+      {
+        price: process.env.STRIPE_PRICE_ID, quantity: 1
+      }
+    ],
     customer_update: {
       address: "auto",
       name: "auto",
     },
-    success_url: 'http://localhost:3000/payment/success',
-    cancel_url: 'http://localhost:3000/payment/canelled',
+    success_url: 'http://localhost:3000/dashboard/payment/success',
+    cancel_url: 'http://localhost:3000/dashboard/payment/canelled',
   })
+
+  return redirect(session.url as string)
   
 }

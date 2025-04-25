@@ -181,7 +181,7 @@ export async function CreateSubscription() {
       name: "auto",
     },
     success_url: 'http://localhost:3000/dashboard/payment/success',
-    cancel_url: 'http://localhost:3000/dashboard/payment/canelled',
+    cancel_url: 'http://localhost:3000/dashboard/payment/cancelled',
   })
 
   return redirect(session.url as string)
